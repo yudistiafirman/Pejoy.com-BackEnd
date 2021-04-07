@@ -35,4 +35,4 @@ app.use('/checkout', checkoutRouter)
 // Router for auth
 app.use('/authBaru', authRouter)
 
-app.listen(PORT, () => console.log(`API Running On Port ${PORT}`))
+app.listen(process.env.PORT||PORT, () => console.log(`API Running On Port ${PORT}`))

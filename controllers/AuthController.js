@@ -31,11 +31,12 @@ const RegisterComtroller = async (req, res) => {
 
         try {
             const userExist = await query(userExistQuery,data.email)
+            
             .catch(error => {
                 throw error
             })
             if(userExist.length !== 0) throw 'Email sudah terdaftar'
-
+            if(userExist[0].is_email_verified!==1) throw 'Email belum terverifikasi'
             const resultToUserDetail = await query(storeToDbDetailUser, {user_name : data.username})
             .catch(error => {
                 throw error
@@ -62,7 +63,7 @@ const RegisterComtroller = async (req, res) => {
                 const template = handlebars.compile(file)
                 const resultTemplate = template({
                     userName : data.username,
-                    link : `http://localhost:3000/email-verification/` + token
+                    link : `https://pejoy-online.netlify.app/email-verification/` + token
                 })
                 transporter.sendMail({
                     from : "admin",
@@ -116,6 +117,7 @@ const LoginController = async (req, res) => {
         })
 
         if(resultUserLogin.length === 0) throw 'Email tidak terdaftar atau Password salah!'
+        if(resultUserLogin[0].is_email_verified!==1) throw 'Email belum terverifkasi'
         const token = jwt.sign({id:resultUserLogin[0].id, role : resultUserLogin[0].user_role},process.env.SECRET_KEY,{expiresIn:'30d'})
         res.send({
             error : false,
@@ -336,7 +338,7 @@ const ForgotPassword = (req, res) => {
                 const template = handlebars.compile(file)
                 const resultTemplate = template({
                     userName : email,
-                    link : `http://localhost:3000/update-password/` + tokenForgotPassword
+                    link : `https://pejoy-online.netlify.app/update-password/` + tokenForgotPassword
                 })
                 transporter.sendMail({
                     from : "admin",
