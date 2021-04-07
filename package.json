@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodeindex.js",
     "heroku-postbuild": "npm run build"
   },
   "keywords": [],
