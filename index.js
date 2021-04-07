@@ -15,11 +15,13 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+app.get('/', (req, res) => {
+    res.send('Welcome To API')
+})
 
 
 
-
-
+app.use(LoggingAPI)
 // For Get Image
 app.use('/public', express.static('public'))
 // Router For Landing Page
