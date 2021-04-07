@@ -19,7 +19,7 @@ app.use(cors())
 
 
 
-app.use(morgan('dev'))
+
 // For Get Image
 app.use('/public', express.static('public'))
 // Router For Landing Page
